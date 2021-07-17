@@ -15,8 +15,8 @@ namespace EntityFrameworkNet5.ConsoleApp
         static async Task Main(string[] args)
         {
             /* Simple Insert Operation Methods */
-            //await AddNewLeague();
-            //await AddNewTeamsWithLeague();
+            await AddNewLeague();
+            await AddNewTeamsWithLeague();
 
             /* Simple Select Queries */
             //await SimpleSelectQuery();
@@ -31,8 +31,8 @@ namespace EntityFrameworkNet5.ConsoleApp
             //await AlternativeLinqSyntax();
 
             /* Perform Update */
-            //await SimpleUpdateLeagueRecord();
-            //await SimpleUpdateTeamRecord();
+            await SimpleUpdateLeagueRecord();
+            await SimpleUpdateTeamRecord();
 
             /* Perform Delete */
             //await SimpleDelete();
@@ -196,7 +196,7 @@ namespace EntityFrameworkNet5.ConsoleApp
                 LeagueId = 3
             };
             context.Teams.Update(team);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync("Test Update User");
         }
         static async Task GetRecord()
         {
@@ -286,7 +286,7 @@ namespace EntityFrameworkNet5.ConsoleApp
             // Adding a new League Object
             var league = new League { Name = "Audit Testing League" };
             await context.Leagues.AddAsync(league);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync("Test Audit Create User");
 
             // Function To add new teams related to the new league object. 
             await AddTeamsWithLeague(league);

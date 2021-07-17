@@ -4,14 +4,16 @@ using EntityFrameworkNet5.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EntityFrameworkNet5.Data.Migrations
 {
     [DbContext(typeof(FootballLeagueDbContext))]
-    partial class FootballLeagueDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210717035126_AddedAuditFields")]
+    partial class AddedAuditFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,8 +41,7 @@ namespace EntityFrameworkNet5.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("TeamId")
                         .HasColumnType("int");
@@ -50,10 +51,6 @@ namespace EntityFrameworkNet5.Data.Migrations
                     b.HasIndex("TeamId")
                         .IsUnique()
                         .HasFilter("[TeamId] IS NOT NULL");
-
-                    b.HasIndex("Name", "TeamId")
-                        .IsUnique()
-                        .HasFilter("[Name] IS NOT NULL AND [TeamId] IS NOT NULL");
 
                     b.ToTable("Coaches");
 
@@ -104,12 +101,9 @@ namespace EntityFrameworkNet5.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name");
 
                     b.ToTable("Leagues");
 
@@ -197,14 +191,11 @@ namespace EntityFrameworkNet5.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("LeagueId");
-
-                    b.HasIndex("Name");
 
                     b.ToTable("Teams");
 
