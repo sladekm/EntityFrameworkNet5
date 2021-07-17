@@ -63,10 +63,49 @@ namespace EntityFrameworkNet5.ConsoleApp
             /* Filter Based on Related Data */
             //await FilteringWithRelatedData();
 
+            /* Querying Views */
+            //await QueryView();
+
+            /* Query With Raw SQL */
+            //await RawSQLQuery();
+
+            /* Query Stored Procedures */
+            //await ExecStoredProcedure();
+
+            /* RAW SQL Non-Query Commands */
+            //await ExecuteNonQueryCommand();
+
+
             Console.WriteLine("Press Any Key To End...");
             Console.ReadKey();
         }
 
+        async static Task ExecuteNonQueryCommand()
+        {
+            var teamId = 10;
+            var affectedRows = await context.Database.ExecuteSqlRawAsync("exec sp_DeleteTeamById {0}", teamId);
+
+            var teamId2 = 12;
+            var affectedRows2 = await context.Database.ExecuteSqlInterpolatedAsync($"exec sp_DeleteTeamById {teamId2}");
+        }
+        async static Task ExecStoredProcedure()
+        {
+            var teamId = 3;
+            var result = await context.Coaches.FromSqlRaw("EXEC dbo.sp_GetTeamCoach {0}", teamId).ToListAsync();
+        }
+        async static Task RawSQLQuery()
+        {
+            var name = "AS Roma";
+            var teams1 = await context.Teams.FromSqlRaw($"Select * from Teams where name = '{name}'")
+                .Include(q => q.Coach).ToListAsync();
+
+            var teams2 = await context.Teams.FromSqlInterpolated($"Select * from Teams where name = {name}").ToListAsync();
+
+        }
+        async static Task QueryView()
+        {
+            var details = await context.TeamsCoachesLeagues.ToListAsync();
+        }
         async static Task FilteringWithRelatedData()
         {
             var leagues = await context.Leagues.Where(q => q.Teams.Any(x => x.Name.Contains("Bay"))).ToListAsync();

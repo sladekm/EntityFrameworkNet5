@@ -4,14 +4,16 @@ using EntityFrameworkNet5.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EntityFrameworkNet5.Data.Migrations
 {
     [DbContext(typeof(FootballLeagueDbContext))]
-    partial class FootballLeagueDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210717024944_AddingTeamDetailsViewAndEarlyMatchFunction")]
+    partial class AddingTeamDetailsViewAndEarlyMatchFunction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,20 +81,6 @@ namespace EntityFrameworkNet5.Data.Migrations
                     b.HasIndex("HomeTeamId");
 
                     b.ToTable("Matches");
-                });
-
-            modelBuilder.Entity("EntityFrameworkNet5.Domain.Models.TeamsCoachesLeaguesView", b =>
-                {
-                    b.Property<string>("CoachName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LeagueName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.ToView("TeamsCoachesLeagues");
                 });
 
             modelBuilder.Entity("EntityFrameworkNet5.Domain.Team", b =>
