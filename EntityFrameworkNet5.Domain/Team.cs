@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace EntityFrameworkNet5.Domain
 {
-    public class Team
+    public class Team : BaseDomainObject
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public int LeagueId { get; set; }
         public virtual League League { get; set; }
+        public virtual Coach Coach { get; set; }
+        public virtual List<Match> HomeMatches { get; set; }
+        public virtual List<Match> AwayMatches { get; set; }
     }
 }
