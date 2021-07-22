@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EntityFrameworkNet5.Data.Configurations.Entities
 {
-    public class LeagueSeedConfiguration : IEntityTypeConfiguration<League>
+    public class LeagueConfiguration : IEntityTypeConfiguration<League>
     {
         public void Configure(EntityTypeBuilder<League> builder)
         {
@@ -20,6 +20,9 @@ namespace EntityFrameworkNet5.Data.Configurations.Entities
                     Name = "Sample League"
                 }
             );
+
+            builder.Property(p => p.Name).HasMaxLength(50);
+            builder.HasIndex(h => h.Name);
         }
     }
 }

@@ -20,32 +20,11 @@ namespace EntityFrameworkNet5.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Team>()
-                .HasMany(m => m.HomeMatches)
-                .WithOne(m => m.HomeTeam)
-                .HasForeignKey(m => m.HomeTeamId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Team>()
-                .HasMany(m => m.AwayMatches)
-                .WithOne(m => m.AwayTeam)
-                .HasForeignKey(m => m.AwayTeamId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
-
             modelBuilder.Entity<TeamsCoachesLeaguesView>().HasNoKey().ToView("TeamsCoachesLeagues");
 
-            modelBuilder.Entity<Team>().Property(p => p.Name).HasMaxLength(50);
-            modelBuilder.Entity<Team>().HasIndex(h => h.Name);           
-            modelBuilder.Entity<League>().Property(p => p.Name).HasMaxLength(50);
-            modelBuilder.Entity<League>().HasIndex(h => h.Name);
-            modelBuilder.Entity<Coach>().Property(p => p.Name).HasMaxLength(50);
-            modelBuilder.Entity<Coach>().HasIndex(h => new { h.Name, h.TeamId }).IsUnique();
-
-            modelBuilder.ApplyConfiguration(new TeamSeedConfiguration());
-            modelBuilder.ApplyConfiguration(new LeagueSeedConfiguration());
-            modelBuilder.ApplyConfiguration(new CoachSeedConfiguration());
+            modelBuilder.ApplyConfiguration(new TeamConfiguration());
+            modelBuilder.ApplyConfiguration(new LeagueConfiguration());
+            modelBuilder.ApplyConfiguration(new CoachConfiguration());
         }
 
         public DbSet<Team> Teams { get; set; }
